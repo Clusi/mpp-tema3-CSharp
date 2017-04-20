@@ -25,7 +25,7 @@ namespace lab1
             InitializeComponent();
 
             this.servicesServer = servicesServer;
-           // flyings = services.getAllFlight();
+            flyings = servicesServer.getAllFlight();
             bsZbor.DataSource = flyings;
             dataGridViewZbor.DataSource =bsZbor;
           
@@ -41,18 +41,18 @@ namespace lab1
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-           // bsZbor.DataSource = services.findByDestinatieDataplecareFlight(txtDestinatie.Text, txtDataPlecare.Text);
+            bsZbor.DataSource = servicesServer.findByDestinatieDataplecareFlight(txtDestinatie.Text, txtDataPlecare.Text);
 
         }
 
         public void update()
         {
-            //bsZbor.DataSource = services.getAllFlight();
+            bsZbor.DataSource = servicesServer.getAllFlight();
         }
 
         private void btnAddBilet_Click(object sender, EventArgs e)
         {
-               /* int nrLocuri;
+                int nrLocuri;
                 try
                 {
                     nrLocuri = int.Parse(txtNumarLocuri.Text);
@@ -68,23 +68,16 @@ namespace lab1
                 string turisti = txtTuristi.Text;
                 int idDestinatie = (int)dataGridViewZbor.Rows[dataGridViewZbor.SelectedCells[0].RowIndex].Cells[0].Value;
                 if (!numeClient.Equals("") && !adresa.Equals("")){
-                    if (services.findByIdZbor(idDestinatie).NrLocuriDisponibile >= nrLocuri)
+                    if (servicesServer.findByIdZbor(idDestinatie).NrLocuriDisponibile >= nrLocuri)
                     {
-                    services.addBilet(numeClient, adresa, idDestinatie);
-                    if (!turisti.Equals(""))
-                        {
-                            string[] t = turisti.Split(' ');
-                            foreach (string s in t)
-                            {
-                                services.addBilet(s, adresa, idDestinatie);
-                            }
-                        }
+                    servicesServer.addBilet(numeClient, turisti,adresa, idDestinatie);
+                   
                     }
                     else
                         MessageBox.Show("Not enough seats!");
                 }
                 else
-                    MessageBox.Show("Invalid dates!");*/
+                    MessageBox.Show("Invalid dates!");
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

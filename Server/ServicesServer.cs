@@ -30,7 +30,20 @@ namespace Server
             return repositoryZbor.finByDestinatieDataPlecare(destinatie, dataPlecare);
         }
 
-        public void addBilet(string client, string adresa, int idDestinatie)
+        public void addBilet(string client,string turisti,string adresa, int idDestinatie)
+        {
+            add(client,adresa,idDestinatie);
+            if (!turisti.Equals(""))
+            {
+                string[] t = turisti.Split(' ');
+                foreach (string s in t)
+                {
+                   add(s, adresa, idDestinatie);
+                }
+            }
+        }
+
+        public void add(string client, string adresa, int idDestinatie)
         {
             Zbor zbor = repositoryZbor.findById(idDestinatie);
             repositoryBilet.add(new Bilet(1, client, adresa, idDestinatie));
@@ -53,7 +66,7 @@ namespace Server
 
         public bool logIn(string userName, string password)
         {
-           // Console.WriteLine( repositoryAngajat.logare(userName, password));
+          
             return repositoryAngajat.logare(userName, password);
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Net;
 using System.Net.Sockets;
@@ -95,6 +96,7 @@ namespace chat.network.client
 				LogInRequest logReq =(LogInRequest)request;
 				AngajatDTO udto =logReq.User;
 				Angajat user =DTOUtils.getFromDTO(udto);
+
 				try
                 {
 
@@ -102,9 +104,9 @@ namespace chat.network.client
                     {
                        bool ok = server.logIn(user.User, user.Parola);
                        if (ok == true)
-                           return new OkResponse();
+                           response = new OkResponse();
                        else 
-                            return new ErrorResponse("log in error");
+                           response = new ErrorResponse("log in error");
 
                     }
                    
@@ -115,7 +117,37 @@ namespace chat.network.client
 					return new ErrorResponse(e.Message);
 				}
 			}
-			
+			else
+			    if (request is GetFlightsRequest)
+			    {
+                    List<Zbor> flights = new List<Zbor>();
+			        flights = server.getAllFlight();
+                    response = new GetFlightsResponse(DTOUtils.getDTO(flights));
+			    }
+            else
+		        if (request is SearchFlightsRequest)
+		        {
+		            SearchFlightsRequest r = (SearchFlightsRequest)request;
+		            List<Zbor> flights = new List<Zbor>();
+		            flights = server.findByDestinatieDataplecareFlight(r.Destinatie, r.DataPlecare);
+		            response = new SearchFlightsResponse(DTOUtils.getDTO(flights));
+		        }
+		    else
+		        if (request is AddBiletRequest)
+		        {
+		            AddBiletRequest r = (AddBiletRequest) request;
+                    server.addBilet(r.Client,r.Turisti,r.Adresa,r.IdDestinatie);
+                    response = new AddBiletResponse();
+		        }
+		        else
+		        {
+		            if (request is FindByIdZborRequest)
+		            {
+		                FindByIdZborRequest r = (FindByIdZborRequest) request;
+		                Zbor z = server.findByIdZbor(r.IdZbor);
+                        response = new FindByIdResponse(DTOUtils.getDTO(z));
+		            }
+		        }
 			return response;
 		}
 

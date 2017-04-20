@@ -27,20 +27,39 @@ namespace Networking
                 return new AngajatDTO(id, userName, password);
             }
 
-
-
-            public static AngajatDTO[] getDTO(Angajat[] users)
+        public static List<ZborDTO> getDTO(List<Zbor> flightsDTO)
+        {
+            List<ZborDTO> flights = new List<ZborDTO>();
+            foreach (Zbor f in flightsDTO)
             {
-                /*UserDTO[] frDTO =new UserDTO[users.Length];
-                for(int i=0;i<users.Length;i++)
-                {
-                    frDTO[i]=getDTO(users[i]);
-                }
-                return frDTO;*/
-                return null;
+                flights.Add(new ZborDTO(f.Id, f.Destinatie, f.DataOraPlecare, f.Aeroport, f.NrLocuriDisponibile));
             }
 
-            
+            return flights;
         }
+
+        public static List<Zbor> getFromDTO(List<ZborDTO> flightsDTO )
+        {
+            List<Zbor> flights = new List<Zbor>();
+            foreach (ZborDTO f in flightsDTO)
+            {
+                flights.Add(new Zbor(f.Id, f.Destinatie, f.DataOraPlecare, f.Aeroport, f.NrLocuriDisponibile));
+            }
+         
+            return flights;
+        }
+
+        public static ZborDTO getDTO(Zbor zbor)
+        {
+            return new ZborDTO(zbor.Id,zbor.Destinatie,zbor.DataOraPlecare,zbor.Aeroport,zbor.NrLocuriDisponibile);
+        }
+
+        public static Zbor getFromDTO(ZborDTO zbor)
+        {
+            return new Zbor(zbor.Id, zbor.Destinatie, zbor.DataOraPlecare, zbor.Aeroport, zbor.NrLocuriDisponibile);
+        }
+
+
+    }
 
 }

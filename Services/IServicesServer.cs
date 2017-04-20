@@ -10,7 +10,7 @@ namespace Services
     public interface IServicesServer
     {
         List<Zbor> findByDestinatieDataplecareFlight(string destinatie, string dataPlecare);
-        void addBilet(string client, string adresa, int idDestinatie);
+        void addBilet(string client,string turisti, string adresa, int idDestinatie);
         List<Zbor> getAllFlight();
         Zbor findByIdZbor(int id);
         bool logIn(string userName, string password);

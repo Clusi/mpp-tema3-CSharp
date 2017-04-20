@@ -144,22 +144,51 @@ namespace chat.network.server
 
 	    public List<Zbor> findByDestinatieDataplecareFlight(string destinatie, string dataPlecare)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        List<Zbor> res = new List<Zbor>();
+	        sendRequest(new SearchFlightsRequest(destinatie,dataPlecare));
+	        IResponse response = readResponse();
+	        if (response is SearchFlightsResponse)
+	        {
+	            SearchFlightsResponse r = (SearchFlightsResponse)response;
+	            res = DTOUtils.getFromDTO(r.Flights);
+	        }
+	        return res;
+        }
 
-	    public void addBilet(string client, string adresa, int idDestinatie)
+	    public void addBilet(string client,string turisti, string adresa, int idDestinatie)
 	    {
-	        throw new NotImplementedException();
-	    }
+	        sendRequest(new AddBiletRequest(client,turisti,adresa,idDestinatie));
+	        IResponse response = readResponse();
+	        if (response is AddBiletResponse)
+	        {
+	            
+	        }
+        }
 
 	    public List<Zbor> getAllFlight()
 	    {
-	        throw new NotImplementedException();
+            List<Zbor> res = new List<Zbor>();
+            sendRequest(new GetFlightsRequest());
+	        IResponse response = readResponse();
+	        if (response is GetFlightsResponse)
+	        {
+	            GetFlightsResponse r =  (GetFlightsResponse) response;
+	            res =  DTOUtils.getFromDTO(r.Flights);
+	        }
+	        return res;
 	    }
 
 	    public Zbor findByIdZbor(int id)
 	    {
-	        throw new NotImplementedException();
+	        Zbor z = null;
+            sendRequest(new FindByIdZborRequest(id));
+	        IResponse response = readResponse();
+	        if (response is FindByIdResponse)
+	        {
+	            FindByIdResponse r = (FindByIdResponse) response;
+	            z = DTOUtils.getFromDTO(r.Zbor);
+	        }
+	        return z;
 	    }
 
 	    public bool logIn(string userName, string password)
